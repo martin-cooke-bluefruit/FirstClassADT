@@ -66,5 +66,6 @@ void EncapsulatedRecipeDemo(void)
 
   Recipe_PrintInfo(encapsulatedRecipe);
 
+  // Optionally, free up memory if we no longer need the recipe
   Recipe_Destroy(encapsulatedRecipe);
 }
