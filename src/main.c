@@ -41,7 +41,7 @@ void EncapsulatedRecipeDemo(void)
   Recipe_PrintInfo(encapsulatedRecipe);
 
   // Unchecked changes to recipe data are no longer allowed.
-  //encapsulatedRecipe->voulmeInMicroliters = 1234;  // Compile error, assignment not allowed
+  //encapsulatedRecipe->voulmeInMicroliters = 1234;  // Compile error, dereferencing not allowed
 
   // With the encapsulated recipe, data modification can only occur via the recipe module istelf.
   // As such, limit checking, auditing, etc. take place in one central location.
