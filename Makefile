@@ -16,7 +16,7 @@ SRCS := $(wildcard src/*.c) $(wildcard src/*/*.c)
 OBJS := $(patsubst src/%,obj/%,$(SRCS:.c=.o))
 
 all:
-	$(MAKE) $(PROJECT_NAME)
+	@$(MAKE) -s $(PROJECT_NAME)
 
 $(PROJECT_NAME): $(OBJS)
 	gcc -o $(PROJECT_NAME) $(OBJS)
@@ -31,9 +31,9 @@ endif
 
 clean:
 ifeq ($(detected_OS),Windows)
-	if exist obj rmdir /Q /S obj
-	if exist $(PROJECT_NAME).exe del $(PROJECT_NAME).exe
+	@if exist obj rmdir /Q /S obj
+	@if exist $(PROJECT_NAME).exe del $(PROJECT_NAME).exe
 else
-	rm -rf obj || true
-	rm -f $(PROJECT_NAME) || true
+	@rm -rf obj || true
+	@rm -f $(PROJECT_NAME) || true
 endif
