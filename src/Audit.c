@@ -10,24 +10,34 @@ void AddMessageToLog(char* newAuditMessage);
 char mAuditLog[AUDIT_LOG_SIZE];
 
 
-void Audit_RecipeNameChange(char* recipeName, char* newValue)
+void Audit_RecipeNameChange(char* recipeName, char* newName)
 {
   char newAuditMessage[255];
-  sprintf(newAuditMessage, "Recipe \"%s\": name changed to \"%s\".\r\n", recipeName, newValue);
+  sprintf(newAuditMessage, "Recipe \"%s\": name changed to \"%s\".\r\n", recipeName, newName);
   AddMessageToLog(newAuditMessage);
 }
 
-void Audit_RecipeVolumeChange(char* recipeName, uint32_t oldValue, uint32_t newValue)
+void Audit_RecipeVolumeChange(char* recipeName, uint32_t oldMicroliters, uint32_t newMicroliters)
 {
   char newAuditMessage[255];
-  sprintf(newAuditMessage, "Recipe \"%s\": volume changed from %i to %i.\r\n", recipeName, oldValue, newValue);
+  sprintf(
+    newAuditMessage,
+    "Recipe \"%s\": volume changed from %0.3f ml to %0.3f ml.\r\n",
+    recipeName,
+    oldMicroliters / 1000.0,
+    newMicroliters / 1000.0);
   AddMessageToLog(newAuditMessage);
 }
 
-void Audit_RecipeStartDelayChange(char* recipeName, uint32_t oldValue, uint32_t newValue)
+void Audit_RecipeStartDelayChange(char* recipeName, uint32_t oldMilliseconds, uint32_t newMilliseconds)
 {
   char newAuditMessage[255];
-  sprintf(newAuditMessage, "Recipe \"%s\": start delay changed from %i to %i.\r\n", recipeName, oldValue, newValue);
+  sprintf(
+    newAuditMessage,
+    "Recipe \"%s\": start delay changed from %i ms to %i ms.\r\n",
+    recipeName,
+    oldMilliseconds,
+    newMilliseconds);
   AddMessageToLog(newAuditMessage);
 }
 

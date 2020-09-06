@@ -24,16 +24,9 @@ char mAuditMessage[256];
 const char* mErrorText;
 const char* mNoError = "";
 
-void Recipe_SetToDefault(RecipePtr recipe)
-{
-  strcpy(recipe->name, "Default encapsulated recipe");
-  recipe->voulmeInMicroliters = 1234;
-  recipe->startDelayInMs = 5678;
-}
 
 void Recipe_PrintInfo(RecipePtr recipe)
 {
-  printf("\r\n");
   printf("Recipe Info:\r\n");
   printf("  Name:        %s\r\n", recipe->name);
   printf("  Volume:      %0.3f ml\r\n", recipe->voulmeInMicroliters / 1000.0);
@@ -121,7 +114,11 @@ RecipePtr Recipe_Create(void)
     return 0;
 
   RecipePtr recipe = mRecipePointers[mNextUnusedRecipe];
-  Recipe_SetToDefault(recipe);
+
+  strcpy(recipe->name, "Default recipe");
+  recipe->voulmeInMicroliters = 0;
+  recipe->startDelayInMs = 0;
+
   mNextUnusedRecipe++;
   return recipe;
 }

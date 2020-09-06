@@ -21,19 +21,18 @@ int main ()
 void BasicRecipeDemo(void)
 {
   BasicRecipe recipe;
-  BasicRecipe_SetToDefault(&recipe);
-  BasicRecipe_PrintInfo(&recipe);
 
   // With the basic recipe, unchecked changes are possible from anywhere in the codebase.
   // As such, any limit checking, auditing, etc. is left up to every coder who uses the module.
   
-  // Blindly copying bytes to a pointer we don't own is risky!
-  strcpy(recipe.name, "Modified recipe");
-  /* e.g, The following would overwrite unrelated memory and produce undefined behaviour:
-  strcpy(recipe.name, "This new recipe name is too long for the buffer defined in recipe.c"); */
-  
-  // Should this generate an audit event, or not?
+
+  // Should these changes generate audit events, or not?
   recipe.voulmeInMicroliters = 10000;
+
+  // Blindly copying bytes to a pointer we don't own is risky!
+  // e.g, This strcpy overwrites the recipe volume with bytes representing "90\0" (or 0x393000).
+  // This equates to the decimal value 12345 (or 3747840 on a big-endian system)
+  strcpy(recipe.name, "Recipe name is too long 1234567890");
 
   // A typo? -300ms stored as uint32_t is about 50 days!!
   recipe.startDelayInMs = -300;
@@ -48,9 +47,7 @@ void BasicRecipeDemo(void)
 void EncapsulatedRecipeDemo(void)
 {
   Recipe_Init();
-
   RecipePtr encapsulatedRecipe = Recipe_Create();
-  Recipe_PrintInfo(encapsulatedRecipe);
 
   // Unchecked changes to recipe data are no longer allowed.
   //encapsulatedRecipe->voulmeInMicroliters = 1234;  // Compile error, dereferencing not allowed
@@ -59,7 +56,7 @@ void EncapsulatedRecipeDemo(void)
   // As such, limit checking, auditing, etc. take place in one central location.
 
   // This text is too long so the change will be rejected:
-  if (!Recipe_SetName(encapsulatedRecipe, "This text exceeds the maximum recipe name length!"))
+  if (!Recipe_SetName(encapsulatedRecipe, "Recipe name is too long 1234567890"))
     printf("*** Error: %s ***\r\n", Recipe_GetLastError());
 
   // -300 as an uint32_t would be parsed as 4294966996, so it gets rejected as too large:
@@ -67,13 +64,13 @@ void EncapsulatedRecipeDemo(void)
     printf("*** Error: %s ***\r\n", Recipe_GetLastError());
 
   // The following three changes are valid so audit events will be created automatically:
-  if (!Recipe_SetName(encapsulatedRecipe, "New recipe name"))
+  if (!Recipe_SetName(encapsulatedRecipe, "Modified recipe"))
     printf("*** Error: %s ***\r\n", Recipe_GetLastError());
 
-  if (!Recipe_SetVolume(encapsulatedRecipe, 7200))
+  if (!Recipe_SetVolume(encapsulatedRecipe, 10000))
     printf("*** Error: %s ***\r\n", Recipe_GetLastError());
 
-  if (!Recipe_SetStartDelay(encapsulatedRecipe, 800))
+  if (!Recipe_SetStartDelay(encapsulatedRecipe, 300))
     printf("*** Error: %s ***\r\n", Recipe_GetLastError());
 
   Recipe_PrintInfo(encapsulatedRecipe);

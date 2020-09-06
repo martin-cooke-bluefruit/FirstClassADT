@@ -6,7 +6,6 @@
 
 typedef struct Recipe* RecipePtr;
 
-void Recipe_SetToDefault(RecipePtr recipe);
 void Recipe_PrintInfo(RecipePtr recipe);
 
 char* Recipe_GetName(RecipePtr recipe);

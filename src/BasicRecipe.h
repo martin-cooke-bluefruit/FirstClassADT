@@ -10,7 +10,6 @@ typedef struct
   uint32_t startDelayInMs;
 } BasicRecipe;
 
-void BasicRecipe_SetToDefault(BasicRecipe* recipe);
 void BasicRecipe_PrintInfo(BasicRecipe* recipe);
 
 #endif
