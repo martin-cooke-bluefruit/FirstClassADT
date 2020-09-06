@@ -54,10 +54,7 @@ bool Recipe_SetName(RecipePtr recipe, char* name)
     return false;
   }
 
-  sprintf(mAuditMessage, "Recipe name for \"%s\" changed to \"%s\"",
-    recipe->name,
-    name);
-  Audit_LogEvent(mAuditMessage);
+  Audit_RecipeNameChange(recipe->name, name);
 
   strcpy(recipe->name, name);
 
@@ -72,12 +69,9 @@ uint32_t Recipe_GetVoulme(RecipePtr recipe)
 
 bool Recipe_SetVolume(RecipePtr recipe, uint32_t volume)
 {
-  recipe->voulmeInMicroliters = volume;
+  Audit_RecipeVolumeChange(recipe->name, recipe->voulmeInMicroliters, volume);
 
-  sprintf(mAuditMessage, "Recipe \"%s\" volume set to %i microliters",
-    recipe->name,
-    recipe->voulmeInMicroliters);
-  Audit_LogEvent(mAuditMessage);
+  recipe->voulmeInMicroliters = volume;
 
   mErrorText = mNoError;
   return true;
@@ -96,12 +90,9 @@ bool Recipe_SetStartDelay(RecipePtr recipe, uint32_t startDelay)
     return false;
   }
 
-  recipe->startDelayInMs = startDelay;
+  Audit_RecipeStartDelayChange(recipe->name, recipe->startDelayInMs, startDelay);
 
-  sprintf(mAuditMessage, "Recipe \"%s\" start delay set to %i milliseconds",
-    recipe->name,
-    recipe->startDelayInMs);
-  Audit_LogEvent(mAuditMessage);
+  recipe->startDelayInMs = startDelay;
 
   mErrorText = mNoError;
   return true;

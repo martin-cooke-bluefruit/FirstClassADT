@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "Audit.h"
 #include "BasicRecipe.h"
 #include "Recipe.h"
 
@@ -8,8 +9,8 @@ void EncapsulatedRecipeDemo(void);
 
 int main ()
 {
-  // printf("--== Basic recipe demo ==--\r\n");
-  // BasicRecipeDemo();
+  printf("--== Basic recipe demo ==--\r\n");
+  BasicRecipeDemo();
 
   printf("--== Encapsulated recipe demo ==--\r\n");
   EncapsulatedRecipeDemo();
@@ -26,11 +27,22 @@ void BasicRecipeDemo(void)
   // With the basic recipe, unchecked changes are possible from anywhere in the codebase.
   // As such, any limit checking, auditing, etc. is left up to every coder who uses the module.
   
-  strcpy(recipe.name, "Modified recipe"); // strcpy with longer text could overwrite invalid memory!
-  recipe.voulmeInMicroliters = 10000; // Should this generate an audit event, or not?
-  recipe.startDelayInMs = -300;  // A typo? -300ms stored as uint32_t is about 50 days!!
+  // Blindly copying bytes to a pointer we don't own is risky!
+  strcpy(recipe.name, "Modified recipe");
+  /* e.g, The following would overwrite unrelated memory and produce undefined behaviour:
+  strcpy(recipe.name, "This new recipe name is too long for the buffer defined in recipe.c"); */
   
+  // Should this generate an audit event, or not?
+  recipe.voulmeInMicroliters = 10000;
+
+  // A typo? -300ms stored as uint32_t is about 50 days!!
+  recipe.startDelayInMs = -300;
+
+  // The recipe is changed, but the errors were not handled ...
   BasicRecipe_PrintInfo(&recipe);
+
+  // ... and nothing was audited
+  Audit_PrintLog();
 }
 
 void EncapsulatedRecipeDemo(void)
@@ -65,6 +77,8 @@ void EncapsulatedRecipeDemo(void)
     printf("*** Error: %s ***\r\n", Recipe_GetLastError());
 
   Recipe_PrintInfo(encapsulatedRecipe);
+
+  Audit_PrintLog();
 
   // Optionally, free up memory if we no longer need the recipe
   Recipe_Destroy(encapsulatedRecipe);
