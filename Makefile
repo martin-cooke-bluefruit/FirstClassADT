@@ -1,4 +1,10 @@
-PROJECT_NAME  ?= FirstClassADT
+# Name of executable to create
+PROJECT_NAME ?= FirstClassADT
+
+# Build mode for project: DEBUG or RELEASE
+BUILD_MODE ?= RELEASE
+
+# Compiler path used by Windows only
 COMPILER_PATH ?= C:/MinGW/bin
 
 ifeq ($(OS),Windows_NT)
@@ -11,15 +17,22 @@ ifeq ($(detected_OS),Windows)
 	export PATH := $(COMPILER_PATH):$(PATH)
 endif
 
-
 SRCS := $(wildcard src/*.c) $(wildcard src/*/*.c)
 OBJS := $(patsubst src/%,obj/%,$(SRCS:.c=.o))
+
+
+CFLAGS += -Wall -std=c99 -Wno-missing-braces
+ifeq ($(BUILD_MODE),DEBUG)
+    CFLAGS += -g -O0
+else
+    CFLAGS += -s -O1
+endif
 
 all:
 	@$(MAKE) -s $(PROJECT_NAME)
 
 $(PROJECT_NAME): $(OBJS)
-	gcc -o $(PROJECT_NAME) $(OBJS)
+	gcc -o $(PROJECT_NAME) $(OBJS) $(CFLAGS)
 
 obj/%.o: src/%.c
 ifeq ($(detected_OS),Windows)
@@ -27,7 +40,7 @@ ifeq ($(detected_OS),Windows)
 else
 	mkdir -p $(@D)
 endif
-	gcc -c $< -o $@
+	gcc -c $< -o $@ $(CFLAGS)
 
 clean:
 ifeq ($(detected_OS),Windows)

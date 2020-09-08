@@ -1,0 +1,47 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build debug",
+            "type": "process",
+            "command": "make",
+            "args": [
+                "PROJECT_NAME=FirstClassADT",
+                "BUILD_MODE=DEBUG"
+            ],
+            "windows": {
+                "command": "C:/mingw/bin/mingw32-make.exe"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "build release",
+            "type": "process",
+            "command": "make",
+            "args": [
+                "PROJECT_NAME=FirstClassADT",
+                "BUILD_MODE=RELEASE"
+            ],
+            "windows": {
+                "command": "C:/mingw/bin/mingw32-make.exe"
+            },
+            "group": "build",
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "clean",
+            "command": "make",
+            "args": [
+                "clean"
+            ],
+            "windows": {
+                "command": "C:/mingw/bin/mingw32-make.exe",
+            },
+            "problemMatcher": []
+        }
+    ]
+}
