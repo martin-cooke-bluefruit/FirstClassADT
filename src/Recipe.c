@@ -16,13 +16,12 @@ struct Recipe
 };
 
 #define MAX_RECIPIES 100
-struct Recipe mRecipeStorage[MAX_RECIPIES];
-RecipePtr mRecipePointers[MAX_RECIPIES];
-int mNextUnusedRecipe;
+static struct Recipe mRecipeStorage[MAX_RECIPIES];
+static RecipePtr mRecipePointers[MAX_RECIPIES];
+static int mNextUnusedRecipe;
 
-char mAuditMessage[256];
-const char* mErrorText;
-const char* mNoError = "";
+static const char* mErrorText;
+static const char* mNoError = "";
 
 
 void Recipe_PrintInfo(RecipePtr recipe)

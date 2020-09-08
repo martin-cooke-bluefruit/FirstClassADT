@@ -5,10 +5,9 @@
 
 #define AUDIT_LOG_SIZE 1024
 
-void AddMessageToLog(char* newAuditMessage);
+static void AddMessageToLog(char* newAuditMessage);
 
-char mAuditLog[AUDIT_LOG_SIZE];
-
+static char mAuditLog[AUDIT_LOG_SIZE];
 
 void Audit_RecipeNameChange(char* recipeName, char* newName)
 {
@@ -41,7 +40,7 @@ void Audit_RecipeStartDelayChange(char* recipeName, uint32_t oldMilliseconds, ui
   AddMessageToLog(newAuditMessage);
 }
 
-void AddMessageToLog(char* newAuditMessage)
+static void AddMessageToLog(char* newAuditMessage)
 {
   int availableLogMemory = AUDIT_LOG_SIZE - strlen(mAuditLog);
   if (strlen(newAuditMessage) < availableLogMemory)

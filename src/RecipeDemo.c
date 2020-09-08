@@ -6,9 +6,9 @@
 #include <stdio.h>
 #include <string.h>
 
-void PrintError(void);
-void BasicDemoCommented(void);
-void EncapsulatedDemoCommented(void);
+static void PrintError(void);
+static void BasicDemoCommented(void);
+static void EncapsulatedDemoCommented(void);
 
 
 void RecipeDemo_Basic(void)
@@ -68,7 +68,7 @@ void RecipeDemo_Encapsulated(void)
   Recipe_Destroy(recipe);
 }
 
-void PrintError(void)
+static void PrintError(void)
 {
   printf("*** Error: %s ***\r\n", Recipe_GetLastError());
 }
@@ -79,7 +79,7 @@ void PrintError(void)
 ////////////////////////////////////////////////////////////////////////////////
 
 
-void BasicDemoCommented(void)
+static void BasicDemoCommented(void)
 {
   BasicRecipe recipe;
 
@@ -116,7 +116,7 @@ void BasicDemoCommented(void)
   Audit_PrintLog();
 }
 
-void EncapsulatedDemoCommented(void)
+static void EncapsulatedDemoCommented(void)
 {
   RecipePtr recipe = Recipe_Create();
 
