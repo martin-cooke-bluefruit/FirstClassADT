@@ -46,10 +46,12 @@ static void AddMessageToLog(char* newAuditMessage)
   if (strlen(newAuditMessage) < availableLogMemory)
     strcat(mAuditLog, newAuditMessage);
   else
-    printf("Warning: Insufficient log space for new audit message");
+    printf("Warning: Insufficient log space for new audit message\r\n");
 }
 
 void Audit_PrintLog(void)
 {
-  printf("--AUDIT LOG START--\r\n%s--AUDIT LOG END--\r\n\r\n", mAuditLog);
+  printf("--AUDIT LOG START--\r\n");
+  printf("%s", mAuditLog);
+  printf("--AUDIT LOG END--\r\n\r\n");
 }
