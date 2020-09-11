@@ -36,6 +36,10 @@
             "label": "clean",
             "command": "make",
             "args": [
+<<<<<<< HEAD
+=======
+                "PROJECT_NAME=FirstClassADT",
+>>>>>>> master
                 "clean"
             ],
             "windows": {
