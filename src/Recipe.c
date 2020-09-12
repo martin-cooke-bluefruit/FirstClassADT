@@ -1,15 +1,12 @@
 #include "Recipe.h"
-
-#include <string.h>
-#include <stdio.h>
-
 #include "Audit.h"
+#include <stdio.h>
+#include <string.h>
 
 #define MAX_NAME_LENGTH 30
 #define MAX_START_DELAY 60000
 
-struct Recipe
-{
+struct Recipe {
   char name[MAX_NAME_LENGTH + 1];
   uint32_t voulmeInMicroliters;
   uint32_t startDelayInMs;
@@ -22,7 +19,6 @@ static int mNextUnusedRecipe;
 
 static const char* mErrorText;
 static const char* mNoError = "";
-
 
 void Recipe_PrintInfo(RecipePtr recipe)
 {

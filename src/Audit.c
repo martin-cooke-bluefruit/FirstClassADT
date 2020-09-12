@@ -1,5 +1,4 @@
 #include "Audit.h"
-
 #include <stdio.h>
 #include <string.h>
 
@@ -19,24 +18,24 @@ void Audit_RecipeNameChange(char* recipeName, char* newName)
 void Audit_RecipeVolumeChange(char* recipeName, uint32_t oldMicroliters, uint32_t newMicroliters)
 {
   char newAuditMessage[255];
-  sprintf(
-    newAuditMessage,
-    "Recipe \"%s\": volume changed from %0.3f ml to %0.3f ml.\r\n",
-    recipeName,
-    oldMicroliters / 1000.0,
-    newMicroliters / 1000.0);
+  sprintf(newAuditMessage,
+          "Recipe \"%s\": volume changed from %0.3f ml to %0.3f ml.\r\n",
+          recipeName,
+          oldMicroliters / 1000.0,
+          newMicroliters / 1000.0);
   AddMessageToLog(newAuditMessage);
 }
 
-void Audit_RecipeStartDelayChange(char* recipeName, uint32_t oldMilliseconds, uint32_t newMilliseconds)
+void Audit_RecipeStartDelayChange(char* recipeName,
+                                  uint32_t oldMilliseconds,
+                                  uint32_t newMilliseconds)
 {
   char newAuditMessage[255];
-  sprintf(
-    newAuditMessage,
-    "Recipe \"%s\": start delay changed from %i ms to %i ms.\r\n",
-    recipeName,
-    oldMilliseconds,
-    newMilliseconds);
+  sprintf(newAuditMessage,
+          "Recipe \"%s\": start delay changed from %i ms to %i ms.\r\n",
+          recipeName,
+          oldMilliseconds,
+          newMilliseconds);
   AddMessageToLog(newAuditMessage);
 }
 

@@ -4,7 +4,7 @@
 #include "RecipeDemo.h"
 #include <stdio.h>
 
-int main ()
+int main()
 {
   printf("--== Basic recipe demo ==--\r\n");
   RecipeDemo_Basic();
@@ -19,4 +19,3 @@ int main ()
 
   return 0;
 }
-

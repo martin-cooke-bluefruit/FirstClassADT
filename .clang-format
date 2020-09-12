@@ -1,0 +1,18 @@
+---
+BasedOnStyle: LLVM
+ColumnLimit: 100
+UseTab: Never
+IndentWidth: 2
+PointerAlignment: Left
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: true
+  AfterFunction: true
+  AfterControlStatement: true
+  BeforeElse: true
+BinPackArguments: false
+BinPackParameters: false
+AllowShortFunctionsOnASingleLine: None
+IncludeBlocks: Merge
+ReflowComments: true
+...

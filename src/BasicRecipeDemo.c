@@ -12,11 +12,11 @@ void RecipeDemo_Basic(void)
   recipe.voulmeInMicroliters = 10000;
   recipe.startDelayInMs = 300;
 
-  // Read some data: 
+  // Read some data:
   printf("\r\nValid recipe data has been set: {\"%s\", %i, %i}\r\n",
-    recipe.name,
-    recipe.voulmeInMicroliters,
-    recipe.startDelayInMs);
+         recipe.name,
+         recipe.voulmeInMicroliters,
+         recipe.startDelayInMs);
 
   // Introduce some errors:
   printf("\r\nAttempting to assign some invalid data...\r\n");

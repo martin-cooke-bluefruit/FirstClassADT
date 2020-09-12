@@ -17,11 +17,11 @@ void RecipeDemo_Encapsulated(void)
   if (!Recipe_SetStartDelay(recipe, 300))
     PrintError();
 
-  // Read some data: 
+  // Read some data:
   printf("\r\nValid recipe data has been set: {\"%s\", %i, %i}\r\n",
-    Recipe_GetName(recipe),
-    Recipe_GetVoulme(recipe),
-    Recipe_GetStartDelay(recipe));
+         Recipe_GetName(recipe),
+         Recipe_GetVoulme(recipe),
+         Recipe_GetStartDelay(recipe));
 
   // Introduce some errors:
   printf("\r\nAttempting to assign some invalid data...\r\n");

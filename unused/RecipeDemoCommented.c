@@ -12,7 +12,7 @@ static void BasicDemoCommented(void)
 
   // With the basic recipe, unchecked changes are possible from anywhere in the codebase.
   // As such, any limit checking, auditing, etc. is left up to every coder who uses the module.
-  
+
   // If we are careful with how we use the BasicRecipe structure then things work as expected.
   // However, should we generate audit events for our changes, or not?
   strcpy(recipe.name, "Modified recipe");
@@ -21,16 +21,16 @@ static void BasicDemoCommented(void)
 
   // We can access the data directly
   printf("Valid recipe data has been set: {\"%s\", %i, %i}\r\n",
-    recipe.name,
-    recipe.voulmeInMicroliters,
-    recipe.startDelayInMs);
+         recipe.name,
+         recipe.voulmeInMicroliters,
+         recipe.startDelayInMs);
 
   printf("Attempting to assign some invalid data...\r\n");
   // If we aren't so careful with with our BasicRecipe struct then we can run into problems:
 
   // Blindly copying bytes to a pointer we don't own is risky!
-  // e.g, This strcpy overwrites the recipe volume with bytes representing "90!\0" (or 0x39302100).
-  // This equates to the decimal value 2175033 (on a little-endian system), hence 2175.033 ml
+  // e.g, This strcpy overwrites the recipe volume with bytes representing "90\0" (or 0x393000).
+  // This equates to the decimal value 12345 (on a little-endian system), hence 12.345 ml
   strcpy(recipe.name, "Recipe name is too long 1234567890");
 
   // A typo? -300ms stored as uint32_t is about 50 days!!
@@ -38,9 +38,6 @@ static void BasicDemoCommented(void)
 
   // The recipe is changed, but the errors were not handled ...
   BasicRecipe_PrintInfo(&recipe);
-
-  // ... and nothing was audited
-  Audit_PrintLog();
 }
 
 static void EncapsulatedDemoCommented(void)
@@ -50,12 +47,12 @@ static void EncapsulatedDemoCommented(void)
   // With the encapsulated recipe, data modification can only occur via the recipe module istelf.
   // As such, limit checking, auditing, etc. take place in one central location.
 
-  // Direct access to to recipe data is no longer allowed.
+  // Direct access to to recipe data is no longer allowed. Uncomment and try to compile:
   //recipe->voulmeInMicroliters = 1234;  // Compile error, dereferencing not allowed
 
   // The following changes are not direct assignmets but are instead via Recipe_SetXYZ() accessors.
-  // The data being set is valid so no error will be printed, and creation of audit events will 
-  // be handled by the recipe module:
+  // The data being set here is valid so no error will be printed, and creation of audit events
+  // will be handled by the recipe module:
   if (!Recipe_SetName(recipe, "Modified recipe"))
     PrintError();
 
@@ -67,9 +64,9 @@ static void EncapsulatedDemoCommented(void)
 
   // Similarly, we must use accessors to get data instead of directly reading from the data struct.
   printf("Valid recipe data has been set: {\"%s\", %i, %i}\r\n",
-  Recipe_GetName(recipe),
-  Recipe_GetVoulme(recipe),
-  Recipe_GetStartDelay(recipe));
+         Recipe_GetName(recipe),
+         Recipe_GetVoulme(recipe),
+         Recipe_GetStartDelay(recipe));
 
   printf("Attempting to assign some invalid data...\r\n");
   // The next two examples fail (i.e. return false). As such the recipe data is unchanged
@@ -85,9 +82,6 @@ static void EncapsulatedDemoCommented(void)
 
   // The errors were handled and the recipe is still correct
   Recipe_PrintInfo(recipe);
-
-  // The audit log contains a record of recipe changes
-  Audit_PrintLog();
 
   // Optionally, we can free up memory if we no longer need the recipe
   Recipe_Destroy(recipe);

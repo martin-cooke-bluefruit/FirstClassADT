@@ -3,8 +3,7 @@
 
 #include <stdint.h>
 
-typedef struct
-{
+typedef struct {
   char name[32];
   uint32_t voulmeInMicroliters;
   uint32_t startDelayInMs;
